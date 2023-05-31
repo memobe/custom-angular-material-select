@@ -1,0 +1,31 @@
+<ng-content></ng-content>
+<mat-menu #selectMenu="matMenu" [overlapTrigger]="false">
+  <span *ngFor="let option of options">
+    <span *ngIf="option.children && option.children.length > 0">
+      <button
+        mat-menu-item
+        [matMenuTriggerFor]="menu.selectMenu"
+        #trigger="matMenuTrigger"
+        (mouseenter)="trigger.openMenu()"
+      >
+        <!-- [isSelected]="valuesSelectionModel.isSelected(option.value)" -->
+        <checkbox-select-item
+          [option]="option"
+          (isSelectedChange)="toggleValueSelection($event, option)"
+        ></checkbox-select-item>
+      </button>
+      <custom-mat-select #menu [options]="option.children"></custom-mat-select>
+      <!-- [defualtSelectedValues]="valuesSelectionModel.selected" -->
+    </span>
+    <button
+      mat-menu-item
+      *ngIf="!option.children || option.children.length === 0"
+    >
+      <!-- [isSelected]="valuesSelectionModel.isSelected(option.value)" -->
+      <checkbox-select-item
+        [option]="option"
+        (isSelectedChange)="toggleValueSelection($event, option)"
+      ></checkbox-select-item>
+    </button>
+  </span>
+</mat-menu>
